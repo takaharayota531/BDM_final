@@ -16,6 +16,10 @@ directions = {'CW': 1, 'CCW': -1, 'STOP': 0}
 
 
 
+global_count=0
+global_nomisa-_coefficient=0
+
+
 
 
 def setup():
@@ -77,22 +81,28 @@ def distance():
 
 def checkCall():
     print("call start")
-    os.system("omxplayer tin.mkv")
+    ans_count=0	
+    while True:
+        os.system("omxplayer tin.mkv")
     # pygame.mixer.init()
     # pygame.mixer.music.load("sakekas.mp3")
     # pygame.mixer.music.play(1)
-    time.sleep(2)
+        time.sleep(2)
 
-    countforCall=0
-    while countforCall<20:
-        dis =distance()
-        if dis<=10 or 1000<=dis:#if there is a cup,call stops.
-            break  
-            print("call stops suddenly")
-		
-        time.sleep(0.5)
-        countforCall+=1
-	
+        countforCall=0
+        while countforCall<80:
+            dis =distance()
+			ans_count+=1
+            if dis<=10 or 1000<=dis:#if there is a cup,call stops.
+                
+                print("call stops suddenly")
+                return ans_count		
+            time.sleep(0.5)
+            countforCall+=1
+        			
+        # if dis<=10 or 1000<=dis:#if there is a cup,call stops.
+        #     return ans_count		
+        
     # pygame.mixer.music.stop()
  #   time.sleep(10.0)
 
@@ -107,7 +117,9 @@ def loop():
         else:
             count=0
         if count>3:
-            checkCall()
+            tmpX=checkCall()
+			global_count+=1
+			nomisa_definition(tmpX)
             count=0
         print ('Distance: %.2f' % dis)
         time.sleep(0.3)
@@ -116,6 +128,18 @@ def pour_sake():
 	motor(directions['CW'])
 	time.sleep(10)
 	motor(directions['STOP'])
+
+def change_action():
+	
+
+def nomisa_definition(tmpX):
+    if global_count<1:
+		global_nomisa+=tmpX
+        return
+    else:
+		change_action()
+		global_count=0
+		
 
 def main():
 	count=0
