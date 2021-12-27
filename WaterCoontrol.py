@@ -2,6 +2,8 @@
 import pygame
 import RPi.GPIO as GPIO
 import time
+import os
+import sys
 
 # Set up pins
 MotorPin1   = 17
@@ -75,12 +77,24 @@ def distance():
 
 def checkCall():
     print("call start")
-    pygame.mixer.init()
-    pygame.mixer.music.load("sakekas.mp3")
-    pygame.mixer.music.play(1)
+    os.system("omxplayer tin.mkv")
+    # pygame.mixer.init()
+    # pygame.mixer.music.load("sakekas.mp3")
+    # pygame.mixer.music.play(1)
     time.sleep(2)
-    pygame.mixer.music.stop()
-    time.sleep(10.0)
+
+    countforCall=0
+    while countforCall<20:
+        dis =distance()
+        if dis<=10 or 1000<=dis:#if there is a cup,call stops.
+            break  
+            print("call stops suddenly")
+		
+        time.sleep(0.5)
+        countforCall+=1
+	
+    # pygame.mixer.music.stop()
+ #   time.sleep(10.0)
 
 def loop():
     print("pass")
@@ -88,7 +102,7 @@ def loop():
 		#time.sleep(5)
     while True:
         dis = distance()
-        if 10<dis and dis<1000:
+        if 10<dis and dis<1000:#if there is not a cup,call starts.
             count+=1
         else:
             count=0
