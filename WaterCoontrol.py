@@ -15,9 +15,9 @@ NOMICIR=0
 directions = {'CW': 1, 'CCW': -1, 'STOP': 0}
 
 
-
+global_average=4
 global_count=0
-global_nomisa-_coefficient=0
+global_array=[]
 
 
 
@@ -92,7 +92,7 @@ def checkCall():
         countforCall=0
         while countforCall<80:
             dis =distance()
-			ans_count+=1
+            ans_count+=1
             if dis<=10 or 1000<=dis:#if there is a cup,call stops.
                 
                 print("call stops suddenly")
@@ -118,8 +118,8 @@ def loop():
             count=0
         if count>3:
             tmpX=checkCall()
-			global_count+=1
-			nomisa_definition(tmpX)
+            global_count+=1
+            nomisa_definition(tmpX)
             count=0
         print ('Distance: %.2f' % dis)
         time.sleep(0.3)
@@ -130,15 +130,21 @@ def pour_sake():
 	motor(directions['STOP'])
 
 def change_action():
+	sub_num=int(global_average/2)
+	for i in range(len(global_array)-sub_num):
+		global_average.pop(0)
+	ans=sum(global_average)/global_average
+	print(ans)
+
 	
 
 def nomisa_definition(tmpX):
-    if global_count<1:
-		global_nomisa+=tmpX
+    if global_count<global_average:
+        global_array.append(tmpX)
         return
     else:
-		change_action()
-		global_count=0
+        change_action()
+        global_count=0
 		
 
 def main():
