@@ -22,6 +22,7 @@ global_array=[]
 
 
 
+
 def setup():
 	# Set the GPIO modes to BCM Numbering
 	GPIO.setmode(GPIO.BCM)
@@ -107,6 +108,7 @@ def checkCall():
  #   time.sleep(10.0)
 
 def loop():
+    global global_count
     print("pass")
     count=0
 		#time.sleep(5)
@@ -139,6 +141,7 @@ def change_action():
 	
 
 def nomisa_definition(tmpX):
+    global global_count
     if global_count<global_average:
         global_array.append(tmpX)
         return
